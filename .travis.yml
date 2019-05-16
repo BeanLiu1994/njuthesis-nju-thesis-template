@@ -2,11 +2,12 @@ sudo: required
 dist: bionic
 before_install:
 - sudo apt-get update
-- sudo apt-get -y install texlive-full
+# - sudo apt-get -y install texlive-full
 # use R language because it contains Tex
 
 script:
-- xelatex -synctex=1 -interaction=nonstopmode -file-line-error sample.tex 
-- bibtex sample.bib
-- xelatex -synctex=1 -interaction=nonstopmode -file-line-error sample.tex 
-- xelatex -synctex=1 -interaction=nonstopmode -file-line-error sample.tex 
+- fc-list :lang=zh
+# - xelatex -synctex=1 -interaction=nonstopmode -file-line-error sample.tex 
+# - bibtex sample
+# - xelatex -synctex=1 -interaction=nonstopmode -file-line-error sample.tex 
+# - xelatex -synctex=1 -interaction=nonstopmode -file-line-error sample.tex 
