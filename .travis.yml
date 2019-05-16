@@ -1,4 +1,8 @@
-language: r 
+sudo: required
+dist: bionic
+before_install:
+- sudo apt-get update
+- sudo apt-get -y install texlive-full
 # use R language because it contains Tex
 
 script:
