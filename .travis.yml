@@ -1,0 +1,8 @@
+language: r 
+# use R language because it contains Tex
+
+script:
+- xelatex -synctex=1 -interaction=nonstopmode -file-line-error sample.tex 
+- bibtex sample.bib
+- xelatex -synctex=1 -interaction=nonstopmode -file-line-error sample.tex 
+- xelatex -synctex=1 -interaction=nonstopmode -file-line-error sample.tex 
