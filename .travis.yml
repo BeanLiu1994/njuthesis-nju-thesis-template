@@ -2,6 +2,13 @@ sudo: required
 dist: bionic
 before_install:
 - sudo apt-get update
+- cd ~
+- sudo apt-get install wget tar -y
+- wget http://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz
+- tar -xf install-tl-unx.tar.gz
+- cd $(ls -1 | awk 'NR==1{print}')
+- echo I|sudo ./install-tl
+
 # - sudo apt-get -y install texlive-full
 # use R language because it contains Tex
 
