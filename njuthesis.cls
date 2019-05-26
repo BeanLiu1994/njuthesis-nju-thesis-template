@@ -1018,8 +1018,7 @@
   \end{center}%
   \normalsize\par%
 }{%
-  %%\cleardoublepage
-  \clearpage
+  \cleardoublepage
 }
 \newcommand{\keywords}[1]{%
 \renewcommand*{\njut@value@abstract@keywords}{#1}%
