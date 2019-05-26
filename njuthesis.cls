@@ -1,7 +1,7 @@
 %% 模板类文件
 \NeedsTeXFormat{LaTeX2e}[1995/12/01]
 \ProvidesClass{njuthesis.cls}
- [2015/7/16 v1.1.18 Document Class for the Degree Papers of Nanjing University]
+[2015/7/16 v1.1.18 Document Class for the Degree Papers of Nanjing University]
 \newif\ifnjut@adobefonts\njut@adobefontstrue
 \newif\ifnjut@winfonts\njut@winfontsfalse
 \newif\ifnjut@linuxfonts\njut@linuxfontsfalse
@@ -10,6 +10,7 @@
 \newif\ifnjut@phd\njut@phdfalse
 \newif\ifnjut@master\njut@masterfalse
 \newif\ifnjut@bachelor\njut@bachelorfalse
+\newif\ifnjut@pagenumatfoot\njut@pagenumatfootfalse
 \DeclareOption{adobefonts}{\njut@adobefontstrue
   \njut@winfontsfalse
   \njut@linuxfontsfalse
@@ -36,6 +37,8 @@
 \DeclareOption{bachelor}{\njut@bachelortrue
   \njut@phdfalse
   \njut@masterfalse}
+\DeclareOption{pagenumatfoot}{
+  \njut@pagenumatfoottrue}
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{book}}
 \ProcessOptions\relax
 \LoadClass[12pt,a4paper,doubleside]{book}
@@ -74,6 +77,8 @@
 \RequirePackage{shortvrb}
 \RequirePackage{xltxtra}
 \RequirePackage{xstring}
+\RequirePackage{ulem}
+\RequirePackage{verbatim}
 \RequirePackage[CJKnumber,CJKchecksingle]{xeCJK}
 \RequirePackage{CJKnumb}
 \defaultfontfeatures{Mapping=tex-text}
@@ -83,21 +88,22 @@
 \RequirePackage[hyphens]{url}
 \RequirePackage{hyperref}
 \hypersetup{%
-    unicode=false,
-    hyperfootnotes=true,
-    hyperindex=true,
-    pageanchor=true,
-    CJKbookmarks=true,
-    bookmarksnumbered=true,
-    bookmarksopen=true,
-    bookmarksopenlevel=0,
-    breaklinks=true,
-    colorlinks=false,
-    plainpages=false,
-    pdfpagelabels,
-    pdfborder=0 0 0%
+  unicode=false,
+  hyperfootnotes=true,
+  hyperindex=true,
+  pageanchor=true,
+  CJKbookmarks=true,
+  bookmarksnumbered=true,
+  bookmarksopen=true,
+  bookmarksopenlevel=0,
+  breaklinks=true,
+  colorlinks=false,
+  plainpages=false,
+  pdfpagelabels,
+  pdfborder=0 0 0%
 }
 \urlstyle{same}
+%% sort and compress citations
 \RequirePackage[sort&compress,numbers]{natbib}
 \RequirePackage{hypernat}
 \RequirePackage{tabularx}
@@ -116,13 +122,13 @@
   \newcommand*{\njut@enfn@mono}{\njut@enfn@mono@adobe}
 \else
   \ifnjut@winfonts
-      \newcommand*{\njut@zhfn@songti}{\njut@zhfn@songti@win}
-      \newcommand*{\njut@zhfn@heiti}{\njut@zhfn@heiti@win}
-      \newcommand*{\njut@zhfn@kaishu}{\njut@zhfn@kaishu@win}
-      \newcommand*{\njut@zhfn@fangsong}{\njut@zhfn@fangsong@win}
-      \newcommand*{\njut@enfn@main}{\njut@enfn@main@win}
-      \newcommand*{\njut@enfn@sans}{\njut@enfn@sans@win}
-      \newcommand*{\njut@enfn@mono}{\njut@enfn@mono@win}
+    \newcommand*{\njut@zhfn@songti}{\njut@zhfn@songti@win}
+    \newcommand*{\njut@zhfn@heiti}{\njut@zhfn@heiti@win}
+    \newcommand*{\njut@zhfn@kaishu}{\njut@zhfn@kaishu@win}
+    \newcommand*{\njut@zhfn@fangsong}{\njut@zhfn@fangsong@win}
+    \newcommand*{\njut@enfn@main}{\njut@enfn@main@win}
+    \newcommand*{\njut@enfn@sans}{\njut@enfn@sans@win}
+    \newcommand*{\njut@enfn@mono}{\njut@enfn@mono@win}
   \else
     \ifnjut@linuxfonts
       \newcommand*{\njut@zhfn@songti}{\njut@zhfn@songti@linux}
@@ -133,17 +139,17 @@
       \newcommand*{\njut@enfn@sans}{\njut@enfn@sans@linux}
       \newcommand*{\njut@enfn@mono}{\njut@enfn@mono@linux}
     \else
-       \ifnjut@macfonts
-          \newcommand*{\njut@zhfn@songti}{\njut@zhfn@songti@mac}
-          \newcommand*{\njut@zhfn@heiti}{\njut@zhfn@heiti@mac}
-          \newcommand*{\njut@zhfn@kaishu}{\njut@zhfn@kaishu@mac}
-          \newcommand*{\njut@zhfn@fangsong}{\njut@zhfn@fangsong@mac}
-          \newcommand*{\njut@enfn@main}{\njut@enfn@main@mac}
-          \newcommand*{\njut@enfn@sans}{\njut@enfn@sans@mac}
-          \newcommand*{\njut@enfn@mono}{\njut@enfn@mono@mac}
-       \else
-         \ClassError{njuthesis}{No fonts was selected.}{}
-       \fi
+      \ifnjut@macfonts
+        \newcommand*{\njut@zhfn@songti}{\njut@zhfn@songti@mac}
+        \newcommand*{\njut@zhfn@heiti}{\njut@zhfn@heiti@mac}
+        \newcommand*{\njut@zhfn@kaishu}{\njut@zhfn@kaishu@mac}
+        \newcommand*{\njut@zhfn@fangsong}{\njut@zhfn@fangsong@mac}
+        \newcommand*{\njut@enfn@main}{\njut@enfn@main@mac}
+        \newcommand*{\njut@enfn@sans}{\njut@enfn@sans@mac}
+        \newcommand*{\njut@enfn@mono}{\njut@enfn@mono@mac}
+      \else
+        \ClassError{njuthesis}{No fonts was selected.}{}
+      \fi
     \fi
   \fi
 \fi
@@ -152,8 +158,8 @@
 \setCJKfamilyfont{kai}{\njut@zhfn@kaishu}
 \setCJKfamilyfont{fangsong}{\njut@zhfn@fangsong}
 \setCJKmainfont[BoldFont={\njut@zhfn@heiti},%
-                ItalicFont={\njut@zhfn@kaishu}]%
-               {\njut@zhfn@songti}
+  ItalicFont={\njut@zhfn@kaishu}]%
+{\njut@zhfn@songti}
 \setCJKsansfont{\njut@zhfn@heiti}
 \setCJKmonofont{\njut@zhfn@fangsong}
 \setmainfont{\njut@enfn@main}
@@ -196,101 +202,101 @@
 \newcommand*{\njut@fs@zero}{42.16} % 初号字 42bp
 \newcommand*{\njut@fs@zeroskip}{50.59}
 \DeclareMathSizes{\njut@fs@eight}
-                 {\njut@fs@eight}
-                 {5}
-                 {5}
+{\njut@fs@eight}
+{5}
+{5}
 \DeclareMathSizes{\njut@fs@seven}
-                 {\njut@fs@seven}
-                 {5}
-                 {5}
+{\njut@fs@seven}
+{5}
+{5}
 \DeclareMathSizes{\njut@fs@ssix}
-                 {\njut@fs@ssix}
-                 {5}
-                 {5}
+{\njut@fs@ssix}
+{5}
+{5}
 \DeclareMathSizes{\njut@fs@six}
-                 {\njut@fs@six}
-                 {5}
-                 {5}
+{\njut@fs@six}
+{5}
+{5}
 \DeclareMathSizes{\njut@fs@sfive}
-                 {\njut@fs@sfive}
-                 {6}
-                 {5}
+{\njut@fs@sfive}
+{6}
+{5}
 \DeclareMathSizes{\njut@fs@five}
-                 {\njut@fs@five}
-                 {7}
-                 {5}
+{\njut@fs@five}
+{7}
+{5}
 \DeclareMathSizes{\njut@fs@sfour}
-                 {\njut@fs@sfour}
-                 {8}
-                 {6}
+{\njut@fs@sfour}
+{8}
+{6}
 \DeclareMathSizes{\njut@fs@four}
-                 {\njut@fs@four}
-                 {\njut@fs@five}
-                 {\njut@fs@six}
+{\njut@fs@four}
+{\njut@fs@five}
+{\njut@fs@six}
 \DeclareMathSizes{\njut@fs@sthree}
-                 {\njut@fs@sthree}
-                 {\njut@fs@sfour}
-                 {\njut@fs@sfive}
+{\njut@fs@sthree}
+{\njut@fs@sfour}
+{\njut@fs@sfive}
 \DeclareMathSizes{\njut@fs@three}
-                 {\njut@fs@three}
-                 {\njut@fs@four}
-                 {\njut@fs@five}
+{\njut@fs@three}
+{\njut@fs@four}
+{\njut@fs@five}
 \DeclareMathSizes{\njut@fs@stwo}
-                 {\njut@fs@stwo}
-                 {\njut@fs@sthree}
-                 {\njut@fs@sfour}
+{\njut@fs@stwo}
+{\njut@fs@sthree}
+{\njut@fs@sfour}
 \DeclareMathSizes{\njut@fs@two}
-                 {\njut@fs@two}
-                 {\njut@fs@three}
-                 {\njut@fs@four}
+{\njut@fs@two}
+{\njut@fs@three}
+{\njut@fs@four}
 \DeclareMathSizes{\njut@fs@sone}
-                 {\njut@fs@sone}
-                 {\njut@fs@stwo}
-                 {\njut@fs@sthree}
+{\njut@fs@sone}
+{\njut@fs@stwo}
+{\njut@fs@sthree}
 \DeclareMathSizes{\njut@fs@one}
-                 {\njut@fs@one}
-                 {\njut@fs@two}
-                 {\njut@fs@three}
+{\njut@fs@one}
+{\njut@fs@two}
+{\njut@fs@three}
 \DeclareMathSizes{\njut@fs@szero}
-                 {\njut@fs@szero}
-                 {\njut@fs@sone}
-                 {\njut@fs@stwo}
+{\njut@fs@szero}
+{\njut@fs@sone}
+{\njut@fs@stwo}
 \DeclareMathSizes{\njut@fs@zero}
-                 {\njut@fs@zero}
-                 {\njut@fs@one}
-                 {\njut@fs@two}
+{\njut@fs@zero}
+{\njut@fs@one}
+{\njut@fs@two}
 \def\njut@zihao{}
 \DeclareRobustCommand*{\zihao}[1]{%
   \def\njut@zihao{#1}%
   \ifnum #11<0%
     \@tempcnta=-#1
     \ifcase\@tempcnta%
-        \fontsize\njut@fs@szero\njut@fs@szeroskip%
-    \or \fontsize\njut@fs@sone\njut@fs@soneskip%
-    \or \fontsize\njut@fs@stwo\njut@fs@stwoskip%
-    \or \fontsize\njut@fs@sthree\njut@fs@sthreeskip%
-    \or \fontsize\njut@fs@sfour\njut@fs@sfourskip%
-    \or \fontsize\njut@fs@sfive\njut@fs@sfiveskip%
-    \or \fontsize\njut@fs@ssix\njut@fs@ssixskip%
+      \fontsize\njut@fs@szero\njut@fs@szeroskip%
+      \or \fontsize\njut@fs@sone\njut@fs@soneskip%
+      \or \fontsize\njut@fs@stwo\njut@fs@stwoskip%
+      \or \fontsize\njut@fs@sthree\njut@fs@sthreeskip%
+      \or \fontsize\njut@fs@sfour\njut@fs@sfourskip%
+      \or \fontsize\njut@fs@sfive\njut@fs@sfiveskip%
+      \or \fontsize\njut@fs@ssix\njut@fs@ssixskip%
     \else \ClassError{njuthesis}{%
-            Undefined Chinese font size in command \protect\zihao}{%
-            The old font size is used if you continue.}%
+        Undefined Chinese font size in command \protect\zihao}{%
+        The old font size is used if you continue.}%
     \fi%
   \else%
     \@tempcnta=#1
     \ifcase\@tempcnta%
-        \fontsize\njut@fs@zero\njut@fs@zeroskip%
-    \or \fontsize\njut@fs@one\njut@fs@oneskip%
-    \or \fontsize\njut@fs@two\njut@fs@twoskip%
-    \or \fontsize\njut@fs@three\njut@fs@threeskip%
-    \or \fontsize\njut@fs@four\njut@fs@fourskip%
-    \or \fontsize\njut@fs@five\njut@fs@fiveskip%
-    \or \fontsize\njut@fs@six\njut@fs@sixskip%
-    \or \fontsize\njut@fs@seven\njut@fs@sevenskip%
-    \or \fontsize\njut@fs@eight\njut@fs@eightskip%
+      \fontsize\njut@fs@zero\njut@fs@zeroskip%
+      \or \fontsize\njut@fs@one\njut@fs@oneskip%
+      \or \fontsize\njut@fs@two\njut@fs@twoskip%
+      \or \fontsize\njut@fs@three\njut@fs@threeskip%
+      \or \fontsize\njut@fs@four\njut@fs@fourskip%
+      \or \fontsize\njut@fs@five\njut@fs@fiveskip%
+      \or \fontsize\njut@fs@six\njut@fs@sixskip%
+      \or \fontsize\njut@fs@seven\njut@fs@sevenskip%
+      \or \fontsize\njut@fs@eight\njut@fs@eightskip%
     \else \ClassError{njuthesis}{%
-            Undefined Chinese font size in command \protect\zihao}{%
-            The old font size is used if you continue.}%
+        Undefined Chinese font size in command \protect\zihao}{%
+        The old font size is used if you continue.}%
     \fi%
   \fi%
   \selectfont\ignorespaces}
@@ -338,21 +344,21 @@
 \newcommand*{\ziju}[1]{\renewcommand*{\CJKglue}{\hskip {#1}}}
 \renewcommand{\textsc}[1]{{\usefont{OT1}{cmr}{m}{sc}{#1}}}
 \newcommand{\dashnumber}[2]%
-  {{#1}\kern.07em\rule[.5ex]{.4em}{.15ex}\kern.07em{#2}}
+{{#1}\kern.07em\rule[.5ex]{.4em}{.15ex}\kern.07em{#2}}
 \renewcommand*{\thefigure}{\dashnumber{\thechapter}{\arabic{figure}}}
 \renewcommand*{\thetable}{\dashnumber{\thechapter}{\arabic{table}}}
 \renewcommand*{\theequation}{\dashnumber{\thechapter}{\arabic{equation}}}
 \renewcommand*{\thesubfigure}{(\alph{subfigure})}
 \renewcommand*{\thesubtable}{(\alph{subtable})}
 \newtheoremstyle{plain}% name
-                {1em}%      Space above, empty = `usual value'
-                {1em}%      Space below
-                {\normalfont}% Body font
-                {}%         Indent amount
-                {\normalfont\bfseries}% Thm head font
-                {}%         Punctuation after thm head
-                {1em}%      Space after thm head: \newline = linebreak
-                {}%         Thm head spec
+{1em}%      Space above, empty = `usual value'
+{1em}%      Space below
+{\normalfont}% Body font
+{}%         Indent amount
+{\normalfont\bfseries}% Thm head font
+{}%         Punctuation after thm head
+{1em}%      Space after thm head: \newline = linebreak
+{}%         Thm head spec
 \newtheorem{definition}{\njut@cap@definition}[chapter]
 \newtheorem{notation}[definition]{\njut@cap@notation}
 \newtheorem{theorem}{\njut@cap@theorem}[chapter]
@@ -418,47 +424,47 @@
 \renewcommand*{\chaptername}{\njut@cap@chaptername}
 \renewcommand*{\appendixname}{\njut@cap@appendixname}
 \titleformat{\chapter}[hang]
-            {\centering\zihao{1}\bfseries}
-            {\chaptertitlename}{1em}{}
+{\centering\zihao{-3}\bfseries}
+{\chaptertitlename}{1em}{}
 \titlespacing{\chapter}
-             {0pt}
-             {*4}
-             {*3}
+{0pt}
+{*3}
+{*2}
 \titleformat{\section}[hang]
-            {\zihao{-2}\bfseries}
-            {\thesection}{1em}{}
+{\zihao{4}\bfseries}
+{\thesection}{1em}{}
 \titlespacing{\section}
-             {0pt}
-             {*3.5}
-             {*2.3}
+{0pt}
+{*2.5}
+{*1.5}
 \titleformat{\subsection}[hang]
-            {\zihao{3}\bfseries}
-            {\thesubsection}{1em}{}
+{\zihao{4}\bfseries}
+{\thesubsection}{1em}{}
 \titlespacing{\subsection}
-             {0pt}
-             {*3}
-             {*1.5}
+{0pt}
+{*2}
+{*1.5}
 \titleformat{\subsubsection}[hang]
-            {\zihao{-3}\bfseries}
-            {\thesubsubsection}{1em}{}
+{\zihao{4}\bfseries}
+{\thesubsubsection}{1em}{}
 \titlespacing{\subsubsection}
-             {0pt}
-             {*2.5}
-             {*1.5}
+{0pt}
+{*2}
+{*1.5}
 \titleformat{\paragraph}[hang]
-            {\zihao{4}\bfseries}
-            {}{0em}{}
+{\zihao{4}\bfseries}
+{}{0em}{}
 \titlespacing{\paragraph}
-             {0pt}
-             {*2}
-             {*1}
+{0pt}
+{*2}
+{*1}
 \titleformat{\subparagraph}[hang]
-            {\zihao{-4}\bfseries}
-            {}{0em}{}
+{\zihao{-4}\bfseries}
+{}{0em}{}
 \titlespacing{\subparagraph}
-             {0pt}
-             {*1.5}
-             {*1}
+{0pt}
+{*1.5}
+{*1}
 \setcounter{secnumdepth}{4}
 \renewcommand{\thechapter}{\arabic{chapter}}
 \renewcommand{\thesection}{\thechapter\thinspace.\thinspace\arabic{section}}
@@ -474,8 +480,8 @@
 \let\convertergy@endoldtabular\endtabular
 \renewenvironment{tabular}%
 {\bgroup%
-\renewcommand{\arraystretch}{1.38}%
-\convertergy@oldtabular}%
+  \renewcommand{\arraystretch}{1.38}%
+  \convertergy@oldtabular}%
 {\convertergy@endoldtabular\egroup}
 \geometry{headheight=2.6cm,headsep=3mm,footskip=13mm}
 \geometry{top=3.5cm,bottom=3.5cm,left=3.2cm,right=3.2cm}
@@ -483,15 +489,25 @@
 \newdimen\njut@CJK@chardimen
 \settowidth\njut@CJK@chardimen{\njut@CJK@charwidth\CJKglue}
 \newcommand{\njut@CJK@setfontspace}{%
-\settowidth\njut@CJK@chardimen{\njut@CJK@charwidth\CJKglue}%
-\ifdim\parindent=0pt\relax\else\parindent2\njut@CJK@chardimen\fi%
+  \settowidth\njut@CJK@chardimen{\njut@CJK@charwidth\CJKglue}%
+  \ifdim\parindent=0pt\relax\else\parindent2\njut@CJK@chardimen\fi%
 }
 \renewcommand*{\indent}{\njut@CJK@setfontspace\parindent2\njut@CJK@chardimen}
 \AtBeginDocument{\indent}
+
+\ifnjut@pagenumatfoot
 \fancypagestyle{plain}{%
-   \fancyhead{}                       % get rid of headers and footers
-   \renewcommand{\headrulewidth}{0pt} % and the header line
-   \renewcommand{\footrulewidth}{0pt} % and the footer line
+  \fancyhf{}
+  \fancyhead[C]{\if@mainmatter\small \leftmark\fi}
+  \fancyfoot[C]{\small ~\thepage~}
+  \renewcommand{\headrulewidth}{\if@mainmatter 0.7pt\else 0pt \fi}
+}
+\pagestyle{plain}
+\else
+\fancypagestyle{plain}{%
+  \fancyhead{}                       % get rid of headers and footers
+  \renewcommand{\headrulewidth}{0pt} % and the header line
+  \renewcommand{\footrulewidth}{0pt} % and the footer line
 }
 \fancyfoot{}
 \renewcommand{\footrulewidth}{0pt}
@@ -499,19 +515,23 @@
 \renewcommand{\headrulewidth}{1pt}
 \fancyhead[RE]{\leftmark}
 \fancyhead[LO]{%
- \ifthenelse{\equal{\rightmark}{}}% if \rightmark is empty
-            {\leftmark}%
-            {\rightmark}%
+  \ifthenelse{\equal{\rightmark}{}}% if \rightmark is empty
+  {\leftmark}%
+  {\rightmark}%
 }
 \pagestyle{fancy}
+\fi
+
 \renewcommand{\chaptermark}[1]{\markboth{%
- \bfseries\if@mainmatter\chaptertitlename\hspace{1em}\fi{#1}%
+\bfseries\if@mainmatter\chaptertitlename\hspace{1em}\fi{#1}%
 }{}}
 \renewcommand{\sectionmark}[1]{\markright{%
- \bfseries\if@mainmatter\thesection\hspace{1em}\fi{#1}%
+\bfseries\if@mainmatter\thesection\hspace{1em}\fi{#1}%
 }}
+\def\cleardoublepageempty{\clearpage\if@twoside \ifodd\c@page\else
+      \hbox{}\thispagestyle{empty}\newpage\if@twocolumn\hbox{}\newpage\fi\fi\fi}
 \def\cleardoublepage{\clearpage\if@twoside \ifodd\c@page\else
-  \hbox{}\thispagestyle{empty}\newpage\if@twocolumn\hbox{}\newpage\fi\fi\fi}
+      \hbox{}\thispagestyle{fancy}\newpage\if@twocolumn\hbox{}\newpage\fi\fi\fi}
 \setlist{%
   topsep=0.3em,             % 列表顶端的垂直空白
   partopsep=0pt,            % 列表环境前面紧接着一个空白行时其顶端的额外垂直空白
@@ -526,15 +546,15 @@
 %\setlist[itemize,2]{label=$\blacksquare$}
 %\setlist[itemize,3]{label=$\Diamondblack$}
 %较小的一级 item 点
-\setlist[itemize,1]{label=$\vcenter{\hbox{\large$\bullet$}}$} 
-\setlist[itemize,2]{label=$\vcenter{\hbox{\small$\blacksquare$}}$} 
-\setlist[itemize,3]{label=$\vcenter{\hbox{\small$\Diamondblack$}}$} 
+\setlist[itemize,1]{label=$\vcenter{\hbox{\large$\bullet$}}$}
+\setlist[itemize,2]{label=$\vcenter{\hbox{\small$\blacksquare$}}$}
+\setlist[itemize,3]{label=$\vcenter{\hbox{\small$\Diamondblack$}}$}
 \renewenvironment{quote}%
-                 {\list{}{\leftmargin=4em\rightmargin=4em}\item[]}%
-                 {\endlist}
+{\list{}{\leftmargin=4em\rightmargin=4em}\item[]}%
+{\endlist}
 \renewenvironment{quotation}%
-                 {\list{}{\leftmargin=4em\rightmargin=4em}\item[]}%
-                 {\endlist}
+{\list{}{\leftmargin=4em\rightmargin=4em}\item[]}%
+{\endlist}
 \newcommand\nchapter[1]{%
   \if@mainmatter%
     \@mainmatterfalse%
@@ -548,16 +568,16 @@
   \ifnum #1>\c@tocdepth \else
     \vskip \z@ \@plus.2\p@
     {\leftskip #2\relax \rightskip \@tocrmarg \parfillskip -\rightskip
-     \parindent #2\relax\@afterindenttrue
-     \interlinepenalty\@M
-     \leavevmode
-     \@tempdima #3\relax
-     \advance\leftskip \@tempdima \null\nobreak\hskip -\leftskip
-     {#4}\nobreak
-     \leaders\hbox{$\m@th\mkern 1.5mu\cdot\mkern 1.5mu$}\hfill
-     \nobreak
-     \hb@xt@\@pnumwidth{\hfil\normalfont \normalcolor #5}%
-     \par}%
+      \parindent #2\relax\@afterindenttrue
+      \interlinepenalty\@M
+      \leavevmode
+      \@tempdima #3\relax
+      \advance\leftskip \@tempdima \null\nobreak\hskip -\leftskip
+      {#4}\nobreak
+      \leaders\hbox{$\m@th\mkern 1.5mu\cdot\mkern 1.5mu$}\hfill
+      \nobreak
+      \hb@xt@\@pnumwidth{\hfil\normalfont \normalcolor #5}%
+      \par}%
   \fi}
 \renewcommand*{\l@part}[2]{%
   \ifnum \c@tocdepth >-2\relax
@@ -565,15 +585,15 @@
     \addvspace{2.25em \@plus\p@}%
     \setlength\@tempdima{3em}%
     \begingroup
-      \parindent \z@ \rightskip \@pnumwidth
-      \parfillskip -\@pnumwidth
-      {\leavevmode
-       \large \bfseries #1
-       \leaders\hbox{$\m@th\mkern 1.5mu\cdot\mkern 1.5mu$}
-       \hfil \hb@xt@\@pnumwidth{\hss #2}}\par
-       \nobreak
-         \global\@nobreaktrue
-         \everypar{\global\@nobreakfalse\everypar{}}%
+    \parindent \z@ \rightskip \@pnumwidth
+    \parfillskip -\@pnumwidth
+    {\leavevmode
+      \large \bfseries #1
+      \leaders\hbox{$\m@th\mkern 1.5mu\cdot\mkern 1.5mu$}
+      \hfil \hb@xt@\@pnumwidth{\hss #2}}\par
+    \nobreak
+    \global\@nobreaktrue
+    \everypar{\global\@nobreakfalse\everypar{}}%
     \endgroup
   \fi}
 \renewcommand*{\l@chapter}[2]{%
@@ -582,103 +602,156 @@
     \vskip 1.0em \@plus\p@
     \setlength\@tempdima{1.5em}%
     \begingroup
-      \parindent \z@ \rightskip \@pnumwidth
-      \parfillskip -\@pnumwidth
-      \leavevmode \bfseries
-      \advance\leftskip\@tempdima
-      \hskip -\leftskip
-      #1\nobreak
-      \leaders\hbox{$\m@th\mkern 1.5mu\cdot\mkern 1.5mu$}
-      \hfil \nobreak\hb@xt@\@pnumwidth{\hss #2}\par
-      \penalty\@highpenalty
+    \parindent \z@ \rightskip \@pnumwidth
+    \parfillskip -\@pnumwidth
+    \leavevmode \bfseries
+    \advance\leftskip\@tempdima
+    \hskip -\leftskip
+    #1\nobreak
+    \leaders\hbox{$\m@th\mkern 1.5mu\cdot\mkern 1.5mu$}
+    \hfil \nobreak\hb@xt@\@pnumwidth{\hss #2}\par
+    \penalty\@highpenalty
     \endgroup
   \fi}
-\titlecontents{chapter}[0pt]
-    {\addvspace{1.5pt}\filright\bfseries}
-    {
-      \IfInteger{\thecontentslabel}
-        {\contentspush{第\hspace{0.5em}\CJKnumber{\thecontentslabel}\hspace{0.5em}章\quad}}
-        {\contentspush{附录\hspace{1em}\thecontentslabel\quad}}
-    }
-    {}
-    {\titlerule*[5pt]{$\cdot$}\contentspage}
-\renewcommand*{\tableofcontents}{%    
-    \if@twocolumn
-      \@restonecoltrue\onecolumn
-    \else
-      \@restonecolfalse
-    \fi
-    \nchapter{\contentsname}%
-    \@mkboth{\MakeUppercase\contentsname}{\MakeUppercase\contentsname}%
-    \@starttoc{toc}%
-    \if@restonecol\twocolumn\fi
+\renewcommand*{\tableofcontents}{%
+  \titlecontents{chapter}[0pt]{\vspace{.5\baselineskip}\bfseries}
+  {
+    \IfInteger{\thecontentslabel}
+    {第~\CJKnumber{\thecontentslabel}~章\quad} 
+    {附录~~~\thecontentslabel\quad}
+  }
+  {}
+  {\titlerule*[5pt]{$\cdot$}\contentspage}
+  \if@twocolumn
+    \@restonecoltrue\onecolumn
+  \else
+    \@restonecolfalse
+  \fi
+  \nchapter{\contentsname}%
+  \@mkboth{\MakeUppercase\contentsname}{\MakeUppercase\contentsname}%
+  \@starttoc{toc}%
+  \if@restonecol\twocolumn\fi
 }
 \renewcommand*{\listoftables}{%
-    \if@twocolumn
-      \@restonecoltrue\onecolumn
-    \else
-      \@restonecolfalse
-    \fi
-    \nchapter{\listtablename}%
-    \@mkboth{\MakeUppercase\listtablename}{\MakeUppercase\listtablename}%
-    \@starttoc{lot}%
-    \if@restonecol\twocolumn\fi
+  \if@twocolumn
+    \@restonecoltrue\onecolumn
+  \else
+    \@restonecolfalse
+  \fi
+  \nchapter{\listtablename}%
+  \@mkboth{\MakeUppercase\listtablename}{\MakeUppercase\listtablename}%
+  \@starttoc{lot}%
+  \if@restonecol\twocolumn\fi
 }
 \renewcommand*{\listoffigures}{%
-    \if@twocolumn
-      \@restonecoltrue\onecolumn
-    \else
-      \@restonecolfalse
-    \fi
-    \nchapter{\listfigurename}%
-    \@mkboth{\MakeUppercase\listfigurename}{\MakeUppercase\listfigurename}%
-    \@starttoc{lof}%
-    \if@restonecol\twocolumn\fi
+  \if@twocolumn
+    \@restonecoltrue\onecolumn
+  \else
+    \@restonecolfalse
+  \fi
+  \nchapter{\listfigurename}%
+  \@mkboth{\MakeUppercase\listfigurename}{\MakeUppercase\listfigurename}%
+  \@starttoc{lof}%
+  \if@restonecol\twocolumn\fi
 }
 \renewenvironment{thebibliography}[1]
-     {\nchapter{\bibname}%
-      \@mkboth{\MakeUppercase\bibname}{\MakeUppercase\bibname}%
-      \list{\@biblabel{\@arabic\c@enumiv}}%
-           {\settowidth\labelwidth{\@biblabel{#1}}%
-            \leftmargin\labelwidth
-            \advance\leftmargin\labelsep
-            \@openbib@code
-            \usecounter{enumiv}%
-            \let\p@enumiv\@empty
-            \renewcommand\theenumiv{\@arabic\c@enumiv}}%
-      \sloppy
-      \clubpenalty4000
-      \@clubpenalty \clubpenalty
-      \widowpenalty4000%
-      \sfcode`\.\@m}
-     {\def\@noitemerr
-       {\@latex@warning{Empty `thebibliography' environment}}%
-      \endlist}
-\bibliographystyle{gbt7714-2005}
+{\nchapter{\bibname}%
+  \@mkboth{\MakeUppercase\bibname}{\MakeUppercase\bibname}%
+  \list{\@biblabel{\@arabic\c@enumiv}}%
+  {\settowidth\labelwidth{\@biblabel{#1}}%
+    \leftmargin\labelwidth
+    \advance\leftmargin\labelsep
+    \@openbib@code
+    \usecounter{enumiv}%
+    \let\p@enumiv\@empty
+    \renewcommand\theenumiv{\@arabic\c@enumiv}}%
+  \sloppy
+  \clubpenalty4000
+  \@clubpenalty \clubpenalty
+  \widowpenalty4000%
+  \sfcode`\.\@m}
+{\def\@noitemerr
+  {\@latex@warning{Empty `thebibliography' environment}}%
+  \endlist}
+
+%\bibliographystyle{gbt7714-2005}
+%\bibliographystyle{njuthesis}
+\bibliographystyle{plain}
+% %% Author-year mode label with numerical mode indexes.
+% %% Jack (2000)
+% \newcommand\citenju[1]{\citeauthor{#1} (\protect\citeyear{#1})}
+% %% (Jack, 2000)
+% \newcommand\citenjup[1]{(\citeauthor{#1}, \protect\citeyear{#1})}
+% %% Jack, 2000
+% \newcommand\citenjupr[1]{\protect\citeauthor{#1}, \protect\citeyear{#1}}
+% %% Jack (2000)
+% \newcommand\Citenju[1]{\protect\Citeauthor{#1} (\protect\citeyear{#1})}
+
 %\setcitestyle{super,square}
 \setcitestyle{square}
 \renewcommand\NAT@citesuper[3]{%
-\ifNAT@swa%
+  \ifNAT@swa%
   \if*#2*\else#2\NAT@spacechar\fi%
   \unskip\kern\p@\textsuperscript{\NAT@@open#1\NAT@@close#3}%
-\else #1\fi\endgroup%
+  \else #1\fi\endgroup%
 }
+
+\newenvironment{Verbatim}
+{\verbatim}
+{\endverbatim}
+
+\newenvironment{VerbatimWithLines}
+{\centering\rule[-5pt]{\linewidth}{0.05em}\verbatim}
+{\endverbatim\centering\rule[10pt]{\linewidth}{0.05em}}
+
 \AtBeginDocument{%
-\let\oldref\ref%
-\renewcommand*{\ref}[1]{\thinspace\oldref{#1}}%
-\renewcommand*{\eqref}[1]{(\oldref{#1})}
+  \let\oldref\ref%
+  \renewcommand*{\ref}[1]{\thinspace\oldref{#1}}%
+  \renewcommand*{\eqref}[1]{(\oldref{#1})}
+
+  %代码listings设置
+  \lstset{breaklines}%这条命令可以让LaTeX自动将长的代码行换行排版
+  \lstset{extendedchars=false}%这一条命令可以解决代码跨页时，章节标题，页眉等汉字不显示的问题
+  \lstset{                        %Settings for listings package.
+    language=[ANSI]{C},
+    backgroundcolor=\color{white},
+    basicstyle=\footnotesize,
+    breakatwhitespace=false,
+    breaklines=true,
+    captionpos=b,
+    commentstyle=\color{olive},
+    directivestyle=\color{blue},
+    extendedchars=false,
+    % frame=single,%shadowbox
+    framerule=0pt,
+    keywordstyle=\color{blue}\bfseries,
+    morekeywords={*,define,*,include...},
+    numbersep=5pt,
+    rulesepcolor=\color{red!20!green!20!blue!20},
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    stepnumber=2,
+    stringstyle=\color{purple},
+    tabsize=4,
+    title=\lstname
+  }
+
+  % set up labelformat and labelsep for subfigure 详见： http://www.latexstudio.net/archives/8652.html
+  \captionsetup[subfigure]{labelformat=simple, labelsep=colon}
+
 }
 \DefineFNsymbols*{circlednumber}[text]{%
-   {\ding{192}} %
-   {\ding{193}} %
-   {\ding{194}} %
-   {\ding{195}} %
-   {\ding{196}} %
-   {\ding{197}} %
-   {\ding{198}} %
-   {\ding{199}} %
-   {\ding{200}} %
-   {\ding{201}} %
+  {\ding{192}} %
+    {\ding{193}} %
+    {\ding{194}} %
+    {\ding{195}} %
+    {\ding{196}} %
+    {\ding{197}} %
+    {\ding{198}} %
+    {\ding{199}} %
+    {\ding{200}} %
+    {\ding{201}} %
 }%
 \setfnsymbol{circlednumber}
 \newcommand*{\classification}[1]{%
@@ -761,7 +834,7 @@
 \newcommand*{\englishdate}[1]{%
   \renewcommand{\njut@value@en@date}{#1}}
 \newcommand{\njut@underline}[2][\textwidth]%
-           {\CJKunderline{\makebox[#1]{#2}}}
+{\CJKunderline{\makebox[#1]{#2}}}
 \def\njutunderline{\@ifnextchar[\njut@underline\CJKunderline}
 \newcommand*{\makenlctitle}{%
   \thispagestyle{empty}
@@ -781,10 +854,10 @@
     \def\ULthickness{1pt}
     {\kaishu\zihao{-0} \njut@cap@nlc@title}
     {\kaishu\zihao{1}
-    \vskip \stretch{1}
-    \njutunderline[12em]{\njut@value@nlc@titlea}\\
-    \njutunderline[12em]{\njut@value@nlc@titleb}\\
-    \njutunderline[12em]{\njut@value@nlc@titlec}\\
+      \vskip \stretch{1}
+      \njutunderline[12em]{\njut@value@nlc@titlea}\\
+      \njutunderline[12em]{\njut@value@nlc@titleb}\\
+      \njutunderline[12em]{\njut@value@nlc@titlec}\\
     }
     \vskip \stretch{1}
     {\kaishu\zihao{4}\njut@cap@nlc@quotetitle}
@@ -816,36 +889,36 @@
     \noindent\hfill\njutunderline[9em]{\njut@value@nlc@reviewerc}\par
     \noindent\hfill\njutunderline[9em]{\njut@value@nlc@reviewerd}\par
   }
-  \cleardoublepage
+  \cleardoublepageempty
 }
 \newcommand*{\njut@covertable@onelinetitle}{
   \begin{tabular}{p{7.3em}c}
-      \makebox[7em][s]{\njut@cap@cover@title}
-      & \njutunderline[310pt]{\njut@value@title}\\
-      \makebox[7em][s]{\njut@cap@cover@author}
-      & \njutunderline[310pt]{\njut@value@author}\\
-      \makebox[7em][s]{\njut@cap@cover@major}
-      & \njutunderline[310pt]{\njut@value@major}\\
-      \makebox[7em][s]{\njut@cap@cover@researchfield}
-      & \njutunderline[310pt]{\njut@value@researchfield}\\
-      \makebox[7em][s]{\njut@cap@cover@supervisor}
-      & \njutunderline[310pt]{\njut@value@supervisor}\\
+    \makebox[7em][s]{\njut@cap@cover@title}
+     & \njutunderline[310pt]{\njut@value@title}         \\
+    \makebox[7em][s]{\njut@cap@cover@author}
+     & \njutunderline[310pt]{\njut@value@author}        \\
+    \makebox[7em][s]{\njut@cap@cover@major}
+     & \njutunderline[310pt]{\njut@value@major}         \\
+    \makebox[7em][s]{\njut@cap@cover@researchfield}
+     & \njutunderline[310pt]{\njut@value@researchfield} \\
+    \makebox[7em][s]{\njut@cap@cover@supervisor}
+     & \njutunderline[310pt]{\njut@value@supervisor}    \\
   \end{tabular}
 }
 \newcommand*{\njut@covertable@twolinetitle}{
   \begin{tabular}{p{7.3em}c}
-      \makebox[7em][s]{\njut@cap@cover@title}
-      & \njutunderline[310pt]{\njut@value@titlea}\\
-      \makebox[7em][s]{}
-      & \njutunderline[310pt]{\njut@value@titleb}\\
-      \makebox[7em][s]{\njut@cap@cover@author}
-      & \njutunderline[310pt]{\njut@value@author}\\
-      \makebox[7em][s]{\njut@cap@cover@major}
-      & \njutunderline[310pt]{\njut@value@major}\\
-      \makebox[7em][s]{\njut@cap@cover@researchfield}
-      & \njutunderline[310pt]{\njut@value@researchfield}\\
-      \makebox[7em][s]{\njut@cap@cover@supervisor}
-      & \njutunderline[310pt]{\njut@value@supervisor}\\
+    \makebox[7em][s]{\njut@cap@cover@title}
+     & \njutunderline[310pt]{\njut@value@titlea}        \\
+    \makebox[7em][s]{}
+     & \njutunderline[310pt]{\njut@value@titleb}        \\
+    \makebox[7em][s]{\njut@cap@cover@author}
+     & \njutunderline[310pt]{\njut@value@author}        \\
+    \makebox[7em][s]{\njut@cap@cover@major}
+     & \njutunderline[310pt]{\njut@value@major}         \\
+    \makebox[7em][s]{\njut@cap@cover@researchfield}
+     & \njutunderline[310pt]{\njut@value@researchfield} \\
+    \makebox[7em][s]{\njut@cap@cover@supervisor}
+     & \njutunderline[310pt]{\njut@value@supervisor}    \\
   \end{tabular}
 }
 \renewcommand*{\maketitle}{%
@@ -856,16 +929,16 @@
     \includegraphics[width=1.96cm]{\njut@cap@institute@logo} \\
     \includegraphics[height=2cm]{\njut@cap@institute@name} \\
     \vskip 8mm
-    {\bf\kaishu\zihao{1}\makebox[10em][s]{\njut@cap@cover@thesis}}\\
+      {\bf\kaishu\zihao{1}\makebox[10em][s]{\njut@cap@cover@thesis}}\\
     \vskip 5mm
-    {\bf\kaishu\zihao{1}（\makebox[7em][s]{\njut@cap@cover@apply}）}\\
+      {\bf\kaishu\zihao{1}（\makebox[7em][s]{\njut@cap@cover@apply}）}\\
     \vskip\stretch{1}
     {\bgroup
-    \bf\kaishu\zihao{3}
-    \def\tabcolsep{1pt}
-    \def\arraystretch{1.5}
-    \ifdefempty{\njut@value@title}{\njut@covertable@twolinetitle}{\njut@covertable@onelinetitle}
-    \egroup}\\
+      \bf\kaishu\zihao{3}
+      \def\tabcolsep{1pt}
+      \def\arraystretch{1.5}
+      \ifdefempty{\njut@value@title}{\njut@covertable@twolinetitle}{\njut@covertable@onelinetitle}
+      \egroup}\\
     \vskip \stretch{1}
     {\bf\kaishu\zihao{4}\njut@value@date}
   \end{center}
@@ -874,15 +947,15 @@
     \thispagestyle{empty}
     \vspace*{\stretch{1}}
     {\bf\kaishu\zihao{-3}
-    \noindent
-    \begin{tabular}{p{6.2em}l}
-    \makebox[6em][s]{\njut@cap@coverback@studentnum}： &\njut@value@studentnum\\
-    \makebox[6em][s]{\njut@cap@coverback@defenddate}： &\njut@value@defenddate\\
-    \makebox[6em][s]{\njut@cap@coverback@supervisor}： &\njut@cap@coverback@sign\\
-    \end{tabular}}
+      \noindent
+      \begin{tabular}{p{6.2em}l}
+        \makebox[6em][s]{\njut@cap@coverback@studentnum}： & \njut@value@studentnum   \\
+        \makebox[6em][s]{\njut@cap@coverback@defenddate}： & \njut@value@defenddate   \\
+        \makebox[6em][s]{\njut@cap@coverback@supervisor}： & \njut@cap@coverback@sign \\
+      \end{tabular}}
     \clearpage
   \else
-    \cleardoublepage
+    \cleardoublepageempty
   \fi
 }
 \newcommand*{\makeenglishtitle}{%
@@ -898,7 +971,7 @@
     \normalfont\rmfamily\zihao{4}\njut@cap@cover@en@supervisor
     \vskip 3pt
     \normalfont\sffamily\zihao{4}\njut@value@en@supervisor
-    \vskip\stretch{1}
+    \vskip\stretch{2}
     \normalsize\rmfamily\njut@cap@cover@en@statement
     \vskip\stretch{2}
     \includegraphics[width=2.5cm]{\njut@cap@institute@logo} \\
@@ -908,6 +981,10 @@
     \vskip 30pt
     \normalfont\normalsize\njut@value@en@date
   \end{center}
+  \clearpage
+  \if@twoside
+    \cleardoublepageempty
+  \fi
 }
 
 \newcommand*{\abstracttitlea}[1]{%
@@ -917,24 +994,23 @@
   \renewcommand{\njut@value@abstract@titleb}{#1}%
 }
 \newenvironment{abstract}{%
-  \thispagestyle{empty}
   \pdfbookmark[0]{\njut@cap@abstract}{abstract}
   \begin{center}
     {\bf\kaishu\zihao{-2}%
-     \njutunderline{\njut@cap@abstract@chaptername}}
+      \uuline{\njut@cap@abstract@chaptername}}
   \end{center}
   \vspace{3mm}
   {\kaishu\zihao{4}%
-  \noindent\njut@cap@abstract@title{：}%
-  \njutunderline[318pt]{\njut@value@abstract@titlea}\\
-  \noindent\njutunderline[\textwidth]{\njut@value@abstract@titleb}\\
-  \noindent\njutunderline[178pt]{\njut@value@major}%
-  \njut@cap@abstract@major%
-  \njutunderline[50pt]{\njut@value@grade}%
-  \njut@cap@abstract@author{：}%
-  \njutunderline[61pt]{\njut@value@author}\\
-  \noindent\njut@cap@abstract@supervisor{：}%
-  \njutunderline[248pt]{\njut@value@supervisor}\\
+    \noindent\njut@cap@abstract@title{：}%
+    \njutunderline[318pt]{\njut@value@abstract@titlea}\\
+    \noindent\njutunderline[\textwidth]{\njut@value@abstract@titleb}\\
+    \noindent\njutunderline[178pt]{\njut@value@major}%
+    \njut@cap@abstract@major%
+    \njutunderline[50pt]{\njut@value@grade}%
+    \njut@cap@abstract@author{：}%
+    \njutunderline[61pt]{\njut@value@author}\\
+    \noindent\njut@cap@abstract@supervisor{：}%
+    \njutunderline[248pt]{\njut@value@supervisor}\\
   }
   \vspace{5mm}
   \begin{center}
@@ -946,9 +1022,9 @@
   \clearpage
 }
 \newcommand{\keywords}[1]{%
-  \renewcommand*{\njut@value@abstract@keywords}{#1}%
-  \par\vspace{2ex}\noindent%
-  {\bf\njut@cap@abstract@keywordsname{：}}~{#1}%
+\renewcommand*{\njut@value@abstract@keywords}{#1}%
+\par\vspace{2ex}\noindent%
+{\bf\njut@cap@abstract@keywordsname{：}}~{#1}%
 }
 \newcommand*{\englishabstracttitlea}[1]{%
   \renewcommand{\njut@value@abstract@en@titlea}{#1}%
@@ -957,36 +1033,35 @@
   \renewcommand{\njut@value@abstract@en@titleb}{#1}%
 }
 \newenvironment{englishabstract}{%
-  \thispagestyle{empty}
-  \pdfbookmark[0]{\njut@cap@abstract@en}{englishabstract}
-  \begin{center}
-    {\bf\kaishu\zihao{-2}%
-     \njutunderline{\njut@cap@abstract@en@chaptername}}
-  \end{center}
-  {\zihao{4}%
-   \njut@cap@abstract@en@title{:}~%
-   \njutunderline[360pt]{\njut@value@abstract@en@titlea}\\
-   \njutunderline[\textwidth]{\njut@value@abstract@en@titleb}\\
-   \njut@cap@abstract@en@major{:}~%
-   \njutunderline[298pt]{\njut@value@en@major}\\
-   \njut@cap@abstract@en@author{:}~%
-   \njutunderline[299pt]{\njut@value@en@author}\\
-   \njut@cap@abstract@en@supervisor{:}~%
-   \njutunderline[348pt]{\njut@value@en@supervisor}\\
-  }
-  \vspace{5mm}
-  \begin{center}
-    {\bf\zihao{-3}\njut@cap@abstract@en@abstractname}
-  \end{center}%
-  \normalsize\par%
+\pdfbookmark[0]{\njut@cap@abstract@en}{englishabstract}
+\begin{center}
+  {\bf\kaishu\zihao{-2}%
+    \uuline{\njut@cap@abstract@en@chaptername}}
+\end{center}
+{\zihao{4}%
+\njut@cap@abstract@en@title{:}~%
+\njutunderline[360pt]{\njut@value@abstract@en@titlea}\\
+\njutunderline[\textwidth]{\njut@value@abstract@en@titleb}\\
+\njut@cap@abstract@en@major{:}~%
+\njutunderline[298pt]{\njut@value@en@major}\\
+\njut@cap@abstract@en@author{:}~%
+\njutunderline[299pt]{\njut@value@en@author}\\
+\njut@cap@abstract@en@supervisor{:}~%
+\njutunderline[348pt]{\njut@value@en@supervisor}\\
+}
+\vspace{5mm}
+\begin{center}
+  {\bf\zihao{-3}\njut@cap@abstract@en@abstractname}
+\end{center}%
+\normalsize\par%
 }{%
-  %%\cleardoublepage
-  \clearpage
+%%\cleardoublepage
+\clearpage
 }
 \newcommand{\englishkeywords}[1]{%
-  \renewcommand*{\njut@value@abstract@en@keywords}{#1}%
-  \par\vspace{2ex}\noindent%
-  {\bf\njut@cap@abstract@en@keywordsname{:}}~~{#1}%
+\renewcommand*{\njut@value@abstract@en@keywords}{#1}%
+\par\vspace{2ex}\noindent%
+{\bf\njut@cap@abstract@en@keywordsname{:}}~~{#1}%
 }
 \newenvironment{preface}{%
   \nchapter{\njut@cap@preface}
@@ -1003,87 +1078,88 @@
 \newenvironment{education}{%
   \paragraph*{\njut@cap@resume@education}
   \begin{description}[labelindent=0em, leftmargin=8em, style=sameline]
-}{%
+    }{%
   \end{description}
 }
 \newenvironment{publications}{%
   \paragraph*{\njut@cap@resume@publications}
   \begin{enumerate}[label=\arabic*., labelindent=0em, leftmargin=*]
-}{%
+    }{%
   \end{enumerate}
 }
 \newenvironment{projects}{%
   \paragraph*{\njut@cap@resume@projects}
   \begin{enumerate}[label=\arabic*., labelindent=0em, leftmargin=*]
-}{%
+    }{%
   \end{enumerate}
 }
 \newcommand*{\njut@cap@datefield}{%
-\njutunderline[1cm]{}{\njut@cap@year}%
-\njutunderline[1cm]{}{\njut@cap@month}%
-\njutunderline[1cm]{}{\njut@cap@day}
+  \njutunderline[1cm]{}{\njut@cap@year}%
+  \njutunderline[1cm]{}{\njut@cap@month}%
+  \njutunderline[1cm]{}{\njut@cap@day}
 }
 \newcommand*{\njut@license@makedeclaration}{%
-\par\njut@cap@license@declaration
-\vspace{5mm}
-\begin{flushright}
-  \njut@cap@license@sign\njutunderline[6cm]{}\\
-  \njut@cap@datefield\\
-\end{flushright}%
+  \par\njut@cap@license@declaration
+  \vspace{5mm}
+  \begin{flushright}
+    \njut@cap@license@sign\njutunderline[6cm]{}\\
+    \njut@cap@datefield\\
+  \end{flushright}%
 }
 \newcommand*{\njut@license@maketable}{%
-\noindent\zihao{5}%
-\begin{tabular*}{\textwidth}
+  \noindent\zihao{5}%
+  \begin{tabular*}{\textwidth}
     {|C{2.2cm}|C{2cm}|C{1.5cm}|C{2.1cm}|C{1.42cm}C{1.5cm}|C{1.25cm}|}
-  \hline
-  \cell{2.2cm}{1cm}{\njut@cap@license@title}
-  & \multicolumn{6}{c|}{\njut@value@title} \\
-  \hline
-  \cell{2.2cm}{1cm}{\njut@cap@license@studentnum}
-  & {\njut@value@studentnum}
-  & {\njut@cap@license@department}
-  & \multicolumn{2}{c|}{%
-    \cell{3.52cm}{1cm}{\njut@value@department}%
-  }
-  & {\njut@cap@license@grade}
-  & {\njut@value@grade} \\
-  \hline
-  \cell{2.2cm}{1.5cm}{\njut@cap@license@category}
-  & \multicolumn{3}{c}{
-    \begin{tabular*}{5.6cm}{p{2.8cm}p{2.8cm}}
-       \ifnjut@master%
-           {{\zihao{-4}$\CheckedBox$}}%
-       \else%
-           {{\zihao{4}$\Square$}}%
-       \fi%
-       \njut@cap@license@categorymaster
-      & {\zihao{4}$\Square$}%
-       \njut@cap@license@categorymasterspec \\
-       \ifnjut@phd%
-           {{\zihao{-4}$\CheckedBox$}}%
-       \else%
-           {{\zihao{4}$\Square$}}%
-       \fi%
-       \njut@cap@license@categoryphd
-      & {\zihao{4}$\Square$}%
-       \njut@cap@license@categoryphdspec \\
-    \end{tabular*}}
-  & \multicolumn{3}{c|}{%
-    \raisebox{-1em}{\njut@cap@license@categoryhint}}\\
-  \hline
-  \cell{2.2cm}{1cm}{\njut@cap@license@telphone}
-  & \multicolumn{2}{c|}{{\njut@value@telphone}}
-  & {\njut@cap@license@email}
-  & \multicolumn{3}{c|}{{\njut@value@email}}  \\
-  \hline
-  \cell{2.2cm}{1cm}{\njut@cap@license@supervisorname}
-  & \multicolumn{2}{c|}{{\njut@value@supervisor}}
-  & {\njut@cap@license@supervisortelphone}
-  & \multicolumn{3}{c|}{{\njut@value@supervisortelphone}} \\
-  \hline
-\end{tabular*}
+    \hline
+    \cell{2.2cm}{1cm}{\njut@cap@license@title}
+    & \multicolumn{6}{c|}{\njut@value@title} \\
+    \hline
+    \cell{2.2cm}{1cm}{\njut@cap@license@studentnum}
+    & {\njut@value@studentnum}
+    & {\njut@cap@license@department}
+    & \multicolumn{2}{c|}{%
+      \cell{3.52cm}{1cm}{\njut@value@department}%
+    }
+    & {\njut@cap@license@grade}
+    & {\njut@value@grade} \\
+    \hline
+    \cell{2.2cm}{1.5cm}{\njut@cap@license@category}
+    & \multicolumn{3}{c}{
+      \begin{tabular*}{5.6cm}{p{2.8cm}p{2.8cm}}
+        \ifnjut@master%
+        {{\zihao{-4}$\CheckedBox$}}%
+        \else%
+        {{\zihao{4}$\Square$}}%
+        \fi%
+        \njut@cap@license@categorymaster
+        & {\zihao{4}$\Square$}%
+        \njut@cap@license@categorymasterspec \\
+        \ifnjut@phd%
+        {{\zihao{-4}$\CheckedBox$}}%
+        \else%
+        {{\zihao{4}$\Square$}}%
+        \fi%
+        \njut@cap@license@categoryphd
+        & {\zihao{4}$\Square$}%
+        \njut@cap@license@categoryphdspec \\
+      \end{tabular*}}
+    & \multicolumn{3}{c|}{%
+      \raisebox{-1em}{\njut@cap@license@categoryhint}}\\
+    \hline
+    \cell{2.2cm}{1cm}{\njut@cap@license@telphone}
+    & \multicolumn{2}{c|}{{\njut@value@telphone}}
+    & {\njut@cap@license@email}
+    & \multicolumn{3}{c|}{{\njut@value@email}}  \\
+    \hline
+    \cell{2.2cm}{1cm}{\njut@cap@license@supervisorname}
+    & \multicolumn{2}{c|}{{\njut@value@supervisor}}
+    & {\njut@cap@license@supervisortelphone}
+    & \multicolumn{3}{c|}{{\njut@value@supervisortelphone}} \\
+    \hline
+  \end{tabular*}
 }
 \newcommand*{\makelicense}{%
+  \cleardoublepage
   \thispagestyle{empty}
   \nchapter{\njut@cap@license@chaptername}
   \njut@license@makedeclaration
@@ -1092,14 +1168,14 @@
   \par\vspace{1em}
   \noindent\njut@cap@license@securitylevel\par
   \noindent\ifthenelse{\equal{\njut@value@nlc@securitylevel}
-                             {\njut@cap@nlc@openlevel}}
-                      {{\zihao{-4}$\CheckedBox$}}
-                      {{\zihao{4}$\Square$}}%
+    {\njut@cap@nlc@openlevel}}
+  {{\zihao{-4}$\CheckedBox$}}
+  {{\zihao{4}$\Square$}}%
   {\njut@cap@license@public}\par
   \noindent\ifthenelse{\equal{\njut@value@nlc@securitylevel}
-                             {\njut@cap@nlc@openlevel}}
-                      {{\zihao{4}$\Square$}}
-                      {{\zihao{-4}$\CheckedBox$}}%
+    {\njut@cap@nlc@openlevel}}
+  {{\zihao{4}$\Square$}}
+  {{\zihao{-4}$\CheckedBox$}}%
   {\njut@cap@license@secret}%
   \njut@cap@datefield\hspace{0.5em}%
   \njut@cap@to\hspace{0.5em}%
@@ -1108,21 +1184,6 @@
   \noindent\njut@cap@license@remark%
   \normalfont
   \cleardoublepage
-}
-%% 盲审命令，空白字段设置
-\newcommand*{\blind}
-{
-\author{}
-\telphone{}
-\email{}
-\studentnum{}
-\supervisor{}
-\supervisortelphone{}
-\major{}
-\researchfield{}
-\englishauthor{}
-\englishsupervisor{}
-\englishmajor{}
 }
 \newcommand{\njuthesis}{\texttt{NJU-Thesis}}
 \newcommand{\zhdash}{\kern0.3ex\rule[0.8ex]{2em}{0.1ex}\kern0.3ex}
@@ -1151,12 +1212,12 @@
 \setlist[stepenum,2]{label={\textnormal{\njut@cap@substep\arabic{stepenumi}.\arabic*.}}}
 \setlist[stepenum]{leftmargin=*}
 \newcommand*{\njut@setpdfinfo}{\hypersetup{%
-        pdftitle={\njut@value@title},
-        pdfauthor={\njut@value@author},
-        pdfsubject={\njut@cap@cover@apply},
-        pdfkeywords={\njut@value@abstract@keywords},
-        pdfcreator={\njut@value@author},
-        pdfproducer={XeLaTeX with the NJU-Thesis document class}}
+    pdftitle={\njut@value@title},
+    pdfauthor={\njut@value@author},
+    pdfsubject={\njut@cap@cover@apply},
+    pdfkeywords={\njut@value@abstract@keywords},
+    pdfcreator={\njut@value@author},
+    pdfproducer={XeLaTeX with the NJU-Thesis document class}}
 }
 \AtBeginDocument{\njut@setpdfinfo}
 \endinput
