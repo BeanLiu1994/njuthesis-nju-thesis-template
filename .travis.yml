@@ -19,4 +19,4 @@ deploy:
   draft: true
   on:
     repo: BeanLiu1994/njuthesis-nju-thesis-template
-    branch: travis_test,master
+    branch: travis_test
