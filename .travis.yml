@@ -7,7 +7,7 @@ before_install:
 
 
 script:
-- docker run --name tmp sumankhanal/texlive-2019 /bin/bash -c "cd ~; wget https://raw.githubusercontent.com/BeanLiu1994/njuthesis-nju-thesis-template/travis_test/command.sh;chmod +x command.sh; ./command.sh"
+- docker run --name tmp sumankhanal/texlive-2019 /bin/bash -c "cd ~; wget https://raw.githubusercontent.com/BeanLiu1994/njuthesis-nju-thesis-template/master/command.sh;chmod +x command.sh; ./command.sh"
 - docker cp tmp:/root/njuthesis-nju-thesis-template/sample.pdf ./
 
 deploy:
@@ -19,4 +19,4 @@ deploy:
   draft: true
   on:
     repo: BeanLiu1994/njuthesis-nju-thesis-template
-    branch: travis_test
+    branch: master
