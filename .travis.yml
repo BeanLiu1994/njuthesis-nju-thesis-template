@@ -1,14 +1,11 @@
 sudo: required
-dist: bionic
-before_install:
-- sudo apt-get update
+services:
+- docker
 
-# - sudo apt-get -y install texlive-full
-# use R language because it contains Tex
+before_install:
+- docker pull sumankhanal/texlive-2019
+
 
 script:
-- fc-list :lang=zh
-# - xelatex -synctex=1 -interaction=nonstopmode -file-line-error sample.tex 
-# - bibtex sample
-# - xelatex -synctex=1 -interaction=nonstopmode -file-line-error sample.tex 
-# - xelatex -synctex=1 -interaction=nonstopmode -file-line-error sample.tex 
+- docker run --name tmp sumankhanal/texlive-2019 /bin/bash -c "apt-get update; apt-get install wget -y; bash -c \"$(wget https://raw.githubusercontent.com/BeanLiu1994/njuthesis-nju-thesis-template/travis_test/command.txt)\""
+- docker cp tmp:/root/njuthesis-nju-thesis-template/sample.pdf ./
