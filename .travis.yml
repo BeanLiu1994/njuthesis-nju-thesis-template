@@ -7,5 +7,5 @@ before_install:
 
 
 script:
-- docker run --name tmp sumankhanal/texlive-2019 /bin/bash -c "apt-get update; apt-get install wget -y; bash -c \"$(wget https://raw.githubusercontent.com/BeanLiu1994/njuthesis-nju-thesis-template/travis_test/command.txt)\""
+- docker run --name tmp sumankhanal/texlive-2019 /bin/bash -c "wget https://raw.githubusercontent.com/BeanLiu1994/njuthesis-nju-thesis-template/travis_test/command.sh;./command.sh"
 - docker cp tmp:/root/njuthesis-nju-thesis-template/sample.pdf ./
