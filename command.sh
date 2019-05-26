@@ -10,7 +10,7 @@ fc-cache -fv
 
 apt-get update
 apt-get install git -y
-git clone https://github.com/BeanLiu1994/njuthesis-nju-thesis-template -b travis_test
+git clone https://github.com/BeanLiu1994/njuthesis-nju-thesis-template -b my_thesis_template
 cd njuthesis-nju-thesis-template
 xelatex -synctex=1 -interaction=nonstopmode -file-line-error sample.tex 
 bibtex sample
