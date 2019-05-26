@@ -16,7 +16,7 @@ deploy:
     secure: ES+MlqXogIR7feAdXv2B+xGxcJhzsgQNdVhLR/+vwRpB2bfTxtjWEOuqYkJWvU5J0UvLfqyoA8Z2QUavIh/qAiYRShbrlOv/UZqEkaQhpmzfSIY7nhvRULEVwRU+49R3XCPY+iOJV+oQ7o/QITxe3hQUcoNWJwRtfS7Ylm3y0cHbIR8JSSa6REgjHjYyu6oR9v9KjpnqSAEtYSCKBbWXKan87f7Jy8xi/YXKhnyb+op8/c6r7FYSbDXPpm65O8k7OfWXt13KTUUMsj5q14+oyrLkD7UZg3R28Tfu4VoFWJrW1o/7ClYUldOPkxIKh/cA0K0uxkVk2O9Cs3RZN0VO3TxBGWDzdRi66fV9Q8AxblU4P6nRzG2IXBhmOb1+iiOjYPkVEktaIj/yL7G7fcIXiItdmvabJOByDq2Yyblw54+I7KKGfWlBzEoHmqlb+n9gkQ5ORVOMzMNxBbbt9FhLaoiKuL2gwe8QWl35KCVkNjZ3yeyPiI1G0QPhebM++Ksj8KNRzMIPFtib1yelKJ0bGzH+Pto92d3mqVswlT10mkooYlUkfp2KwRRXlt4fpN1bqbU1Ld+isSr4hCq/69C7ZaJQh8TqqSi3E9cZ2ClhVFIYWJ+pv8uidGovlmEjy1Rfh2BZJmPqnwn21f3p5AGk5CrnUNxJKVw+xscXHJbLL8E=
   file: sample.pdf
   skip_cleanup: true
-  draft: true
+  # draft: true
   on:
     repo: BeanLiu1994/njuthesis-nju-thesis-template
     branch: master
